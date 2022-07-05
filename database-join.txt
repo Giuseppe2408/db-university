@@ -29,10 +29,40 @@ JOIN degrees
 ON departments.id = degrees.department_id
 WHERE degrees.level LIKE 'magistrale' AND departments.name LIKE 'Dipartimento di Neuroscienze'; 
 
-SELECT teachers.name, teachers.surname, courses.*
+SELECT teachers.name, teachers.surname, courses.id
 FROM `teachers`
 JOIN course_teacher
 ON teachers.id = course_teacher.teacher_id
 JOIN courses
-ON course_teacher.teacher_id = courses.id
+ON course_teacher.course_id = courses.id
 WHERE teachers.id = 44;
+
+SELECT students.id, students.name, students.surname, degrees.name, students.degree_id, degrees.id, departments.name, departments.id 
+FROM `students`
+JOIN degrees
+ON students.degree_id = degrees.id
+JOIN departments
+ON degrees.department_id = departments.id
+ORDER BY students.surname;
+
+SELECT teachers.name, teachers.surname, courses.name, degrees.name 
+FROM `courses`
+JOIN degrees
+ON courses.degree_id = degrees.id
+JOIN course_teacher
+ON course_teacher.course_id = courses.id
+JOIN teachers
+ON course_teacher.teacher_id = teachers.id;
+
+SELECT DISTINCT teachers.name, teachers.surname, departments.name 
+FROM `teachers`
+JOIN course_teacher
+ON teachers.id = course_teacher.teacher_id
+JOIN courses
+ON course_teacher.course_id = courses.id
+JOIN degrees 
+ON courses.degree_id = degrees.id
+JOIN departments
+ON degrees.department_id = departments.id
+WHERE departments.name LIKE 'Dipartimento di Matematica'
+ORDER BY teachers.surname;
